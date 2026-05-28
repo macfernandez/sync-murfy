@@ -25,7 +25,7 @@ cp .env.example .env
 
 Edit `.env` with your Murfy credentials and project name:
 
-```
+```env
 MURFY_EMAIL=your@email.com
 MURFY_PASSWORD=yourpassword
 MURFY_PROJECT=your-project-name   # leave empty to use the first project in the list
@@ -39,7 +39,7 @@ MURFY_PROJECT=your-project-name   # leave empty to use the first project in the 
 uv run python sync.py
 ```
 
-Chrome will open visibly so you can follow along. The project files end up in `./project/`.
+Chrome will open visibly so you can follow along. The downloaded ZIP ends up in `./downloads/{project-name}.zip`.
 
 ## Adjusting selectors
 
