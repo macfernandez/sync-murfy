@@ -92,7 +92,6 @@ def login(driver: webdriver.Chrome, wait: WebDriverWait):
     password_field.clear()
     password_field.send_keys(PASSWORD)
 
-    # TODO: update selector if the submit button uses a different type or attribute.
     submit_btn = driver.find_element(By.CSS_SELECTOR, "button[type='submit'], input[type='submit']")
     submit_btn.click()
 
