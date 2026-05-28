@@ -39,7 +39,9 @@ PASSWORD = os.environ.get("MURFY_PASSWORD")
 PROJECT_NAME = os.environ.get("MURFY_PROJECT", "")
 
 REPO_ROOT = Path(__file__).parent
-DOWNLOAD_DIR = REPO_ROOT / "downloads"
+# In GitHub Actions, MURFY_DOWNLOAD_DIR is set to $GITHUB_WORKSPACE/downloads
+# so the ZIP is accessible to the caller's subsequent steps.
+DOWNLOAD_DIR = Path(os.environ.get("MURFY_DOWNLOAD_DIR", REPO_ROOT / "downloads"))
 
 
 # ---------------------------------------------------------------------------
@@ -56,8 +58,10 @@ def validate_config():
 
 def make_driver() -> webdriver.Chrome:
     options = webdriver.ChromeOptions()
-    # Visible browser mode (no --headless flag).
-    # For GitHub Actions add: options.add_argument("--headless=new")
+    if os.environ.get("CI") == "true":
+        options.add_argument("--headless=new")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
     options.add_experimental_option("prefs", {
         "download.default_directory": str(DOWNLOAD_DIR.resolve()),
         "download.prompt_for_download": False,
@@ -177,9 +181,14 @@ def main():
     wait = WebDriverWait(driver, 20)
     try:
         login(driver, wait)
-        find_and_download_project(wait)
+        zip_path = find_and_download_project(wait)
     finally:
         driver.quit()
+
+    github_output = os.environ.get("GITHUB_OUTPUT")
+    if github_output:
+        with open(github_output, "a") as f:
+            f.write(f"zip-path={zip_path}\n")
 
 
 if __name__ == "__main__":
