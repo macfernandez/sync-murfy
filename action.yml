@@ -9,11 +9,8 @@ inputs:
     description: Murfy account password.
     required: true
   project:
-    description: >
-      Project name as shown in the Murfy dashboard.
-      Leave empty to use the first project in the list.
-    required: false
-    default: ""
+    description: Project name as shown in the Murfy dashboard.
+    required: true
 
 outputs:
   zip-path:
