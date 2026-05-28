@@ -43,6 +43,6 @@ uv run python sync.py
 
 Chrome will open visibly so you can follow along. The downloaded ZIP ends up in `./downloads/{project-name}.zip`.
 
-## Adjusting selectors
+## Maintenance
 
-The script uses confirmed CSS/XPath selectors for murfy.ai's DOM. If the site changes and a step breaks, look for the `# TODO` comment in `sync.py` (submit button selector) and use Chrome DevTools (F12 → click the element → Copy selector) to update it.
+The CSS/XPath selectors in `sync.py` were confirmed against murfy.ai's DOM at the time of writing. If the site changes and a step breaks, inspect the relevant element with Chrome DevTools (F12 → click the element → Copy selector) and update the corresponding selector in `sync.py`.
