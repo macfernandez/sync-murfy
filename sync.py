@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 """
-sync.py - Download a Murfy LaTeX project and save it to ./project/.
+sync.py - Download a Murfy LaTeX project as a ZIP file.
 
 Usage:
     python sync.py
 
 Credentials are loaded from a .env file (see .env.example).
+The downloaded ZIP is saved to ./downloads/{project-name}.zip.
 """
 
 import logging
 import os
 import sys
 import time
-import zipfile
-import shutil
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -41,7 +40,6 @@ PROJECT_NAME = os.environ.get("MURFY_PROJECT", "")
 
 REPO_ROOT = Path(__file__).parent
 DOWNLOAD_DIR = REPO_ROOT / "downloads"
-OUTPUT_DIR = REPO_ROOT / "project"
 
 
 # ---------------------------------------------------------------------------
@@ -143,7 +141,14 @@ def find_and_download_project(wait: WebDriverWait) -> Path:
 
     log.info("Waiting for download to complete...")
     zip_path = _wait_for_download(DOWNLOAD_DIR)
-    log.info("Downloaded: %s", zip_path.name)
+
+    # Rename to {project-name}.zip for a predictable filename.
+    # Falls back to the original name if PROJECT_NAME is not set.
+    if PROJECT_NAME:
+        target = DOWNLOAD_DIR / f"{PROJECT_NAME}.zip"
+        zip_path = zip_path.rename(target)
+
+    log.info("ZIP saved to: %s", zip_path)
     return zip_path
 
 
@@ -161,16 +166,6 @@ def _wait_for_download(download_dir: Path, timeout: int = 60) -> Path:
     raise TimeoutError(f"No .zip file appeared in {download_dir} within {timeout}s.")
 
 
-def extract_to_output(zip_path: Path):
-    if OUTPUT_DIR.exists():
-        shutil.rmtree(OUTPUT_DIR)
-    OUTPUT_DIR.mkdir(parents=True)
-    log.info("Extracting %s → %s/", zip_path.name, OUTPUT_DIR.relative_to(REPO_ROOT))
-    with zipfile.ZipFile(zip_path, "r") as zf:
-        zf.extractall(OUTPUT_DIR)
-    zip_path.unlink()
-
-
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
@@ -183,9 +178,7 @@ def main():
     wait = WebDriverWait(driver, 20)
     try:
         login(driver, wait)
-        zip_path = find_and_download_project(wait)
-        extract_to_output(zip_path)
-        log.info("Project synced to ./project/")
+        find_and_download_project(wait)
     finally:
         driver.quit()
 
