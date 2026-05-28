@@ -26,10 +26,12 @@ cp .env.example .env
 Edit `.env` with your Murfy credentials and project name:
 
 ```
-MURFY_EMAIL=tu@email.com
-MURFY_PASSWORD=tupassword
-MURFY_PROJECT=nombre-del-proyecto   # leave empty to open the first project
+MURFY_EMAIL=your@email.com
+MURFY_PASSWORD=yourpassword
+MURFY_PROJECT=your-project-name   # leave empty to use the first project in the list
 ```
+
+`MURFY_PROJECT` must match the project name as it appears in the Murfy dashboard (the title shown in the project list). When running as a GitHub Action, this value is set as a repository variable (`vars.MURFY_PROJECT` in the workflow YAML), not as a secret.
 
 ### Run
 
@@ -37,18 +39,8 @@ MURFY_PROJECT=nombre-del-proyecto   # leave empty to open the first project
 uv run python sync.py
 ```
 
-Chrome will open visibly so you can follow the flow. The project files end up in `./project/`.
+Chrome will open visibly so you can follow along. The project files end up in `./project/`.
 
 ## Adjusting selectors
 
-The script uses best-guess CSS/XPath selectors for murfy.ai's DOM. If any step fails, look for the `# TODO` comments in `sync.py` and update the selectors using Chrome DevTools (F12 → click the element → Copy selector).
-
-The steps that most likely need adjustment are:
-
-| Step | Function | What to inspect |
-|---|---|---|
-| Login fields | `login()` | Email/password inputs and submit button |
-| Post-login dashboard | `login()` | Any element present after a successful login |
-| Project list item | `find_and_open_project()` | The link/element for a project in the list |
-| Editor loaded | `download_project_zip()` | Any element present once the editor is ready |
-| Menu + download button | `download_project_zip()` | The menu toggle and the download/export ZIP option |
+The script uses confirmed CSS/XPath selectors for murfy.ai's DOM. If the site changes and a step breaks, look for the `# TODO` comment in `sync.py` (submit button selector) and use Chrome DevTools (F12 → click the element → Copy selector) to update it.
