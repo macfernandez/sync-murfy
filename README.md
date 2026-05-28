@@ -11,6 +11,8 @@ GitHub Action to back up a [Murfy](https://murfy.ai) LaTeX project into a git re
 - [uv](https://docs.astral.sh/uv/getting-started/installation/)
 - Google Chrome
 
+> **GitHub Actions:** the action requires `runs-on: ubuntu-latest` (Chrome is pre-installed on that runner).
+
 ### Install dependencies
 
 ```bash
