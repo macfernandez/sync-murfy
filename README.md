@@ -2,8 +2,6 @@
 
 GitHub Action to back up a [Murfy](https://murfy.ai) LaTeX project into a git repository.
 
-> **Current state:** the Python script (`sync.py`) is ready to run locally with a visible browser. The GitHub Action workflow will be added in a later step.
-
 ## Local setup
 
 ### Prerequisites
@@ -30,10 +28,10 @@ Edit `.env` with your Murfy credentials and project name:
 ```env
 MURFY_EMAIL=your@email.com
 MURFY_PASSWORD=yourpassword
-MURFY_PROJECT=your-project-name   # leave empty to use the first project in the list
+MURFY_PROJECT=your-project-name
 ```
 
-`MURFY_PROJECT` must match the project name as it appears in the Murfy dashboard (the title shown in the project list). When running as a GitHub Action, this value is set as a repository variable (`vars.MURFY_PROJECT` in the workflow YAML), not as a secret.
+`MURFY_PROJECT` must match the project name as it appears in the Murfy dashboard (the title shown in the project list).
 
 ### Run
 
