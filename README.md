@@ -64,7 +64,7 @@ jobs:
         run: unzip "${{ steps.murfy.outputs.zip-path }}" -d ./my-folder/
 ```
 
-`MURFY_EMAIL` and `MURFY_PASSWORD` should be configured as repository secrets. `MURFY_PROJECT` should be configured as a repository variable (not a secret).
+It is recommended to store `MURFY_EMAIL` and `MURFY_PASSWORD` as repository secrets and `MURFY_PROJECT` as a repository variable, but the action accepts any combination.
 
 ## Maintenance
 
