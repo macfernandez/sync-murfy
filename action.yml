@@ -1,0 +1,43 @@
+name: Sync Murfy
+description: Download a Murfy LaTeX project as a ZIP file.
+
+inputs:
+  email:
+    description: Murfy account email.
+    required: true
+  password:
+    description: Murfy account password.
+    required: true
+  project:
+    description: >
+      Project name as shown in the Murfy dashboard.
+      Leave empty to use the first project in the list.
+    required: false
+    default: ""
+
+outputs:
+  zip-path:
+    description: Absolute path to the downloaded ZIP file.
+    value: ${{ steps.sync.outputs.zip-path }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up uv
+      uses: astral-sh/setup-uv@v5
+
+    - name: Install dependencies
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: uv sync --frozen
+
+    - name: Download project ZIP
+      id: sync
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      env:
+        MURFY_EMAIL: ${{ inputs.email }}
+        MURFY_PASSWORD: ${{ inputs.password }}
+        MURFY_PROJECT: ${{ inputs.project }}
+        MURFY_DOWNLOAD_DIR: ${{ github.workspace }}/downloads
+      run: uv run python sync.py
