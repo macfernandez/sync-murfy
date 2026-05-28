@@ -49,7 +49,7 @@ DOWNLOAD_DIR = Path(os.environ.get("MURFY_DOWNLOAD_DIR", REPO_ROOT / "downloads"
 # ---------------------------------------------------------------------------
 
 def validate_config():
-    missing = [k for k, v in {"MURFY_EMAIL": EMAIL, "MURFY_PASSWORD": PASSWORD}.items() if not v]
+    missing = [k for k, v in {"MURFY_EMAIL": EMAIL, "MURFY_PASSWORD": PASSWORD, "MURFY_PROJECT": PROJECT_NAME}.items() if not v]
     if missing:
         log.error("Missing environment variables: %s", ", ".join(missing))
         log.error("Copy .env.example to .env and fill in your credentials.")
@@ -109,12 +109,8 @@ def login(driver: webdriver.Chrome, wait: WebDriverWait):
 
 
 def find_and_download_project(wait: WebDriverWait) -> Path:
-    if PROJECT_NAME:
-        log.info("Looking for project: %r", PROJECT_NAME)
-        row_xpath = f"//tr[.//span[@title='{PROJECT_NAME}']]"
-    else:
-        log.info("No project name set — using the first project in the list.")
-        row_xpath = "(//tr[.//span[@title]])[1]"
+    log.info("Looking for project: %r", PROJECT_NAME)
+    row_xpath = f"//tr[.//span[@title='{PROJECT_NAME}']]"
 
     try:
         row = wait.until(EC.presence_of_element_located((By.XPATH, row_xpath)))
@@ -145,11 +141,7 @@ def find_and_download_project(wait: WebDriverWait) -> Path:
     log.info("Waiting for download to complete...")
     zip_path = _wait_for_download(DOWNLOAD_DIR)
 
-    # Rename to {project-name}.zip for a predictable filename.
-    # Falls back to the original name if PROJECT_NAME is not set.
-    if PROJECT_NAME:
-        target = DOWNLOAD_DIR / f"{PROJECT_NAME}.zip"
-        zip_path = zip_path.rename(target)
+    zip_path = zip_path.rename(DOWNLOAD_DIR / f"{PROJECT_NAME}.zip")
 
     log.info("ZIP saved to: %s", zip_path)
     return zip_path
