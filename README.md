@@ -11,12 +11,12 @@ GitHub Action to back up a [Murfy](https://murfy.ai) LaTeX project into a git re
 This action requires your Murfy password to be stored as a **GitHub Secret**. GitHub Secrets are encrypted at rest and never exposed in workflow logs, but you should be aware of the following before proceeding:
 
 - The secret value is a plaintext password. Anyone with admin access to the repository can use (but not read) it; anyone who can write workflow files can potentially expose it in a workflow run.
-- Consider using a dedicated Murfy account — or at minimum a unique password — rather than your primary account credentials.
+- Consider using a dedicated Murfy account — or at minimum a unique password — rather than your primary account credentials. Ideally, that account should only have read access to the project being synced.
 - If your credentials are ever compromised, revoke them from the Murfy dashboard immediately.
 
 ### Scheduling
 
-If you automate this action on a schedule, **please avoid frequent runs.** Running this too often generates unnecessary load on Murfy's infrastructure. A daily or weekly cadence is reasonable; anything more frequent is not recommended. Excessive automated traffic may result in access being revoked.
+If you automate this action on a schedule, **please avoid frequent runs.** Running this too often generates unnecessary load on Murfy's infrastructure and may result in access being revoked.
 
 ## Local setup
 
