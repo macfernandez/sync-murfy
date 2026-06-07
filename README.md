@@ -25,8 +25,6 @@ If you automate this action on a schedule, **please avoid frequent runs.** Runni
 - [uv](https://docs.astral.sh/uv/getting-started/installation/)
 - Google Chrome
 
-> **GitHub Actions:** the action requires `runs-on: ubuntu-latest` (Chrome is pre-installed on that runner).
-
 ### Install dependencies
 
 ```bash
