@@ -84,4 +84,4 @@ It is recommended to store `MURFY_EMAIL` and `MURFY_PASSWORD` as repository secr
 
 ## Maintenance
 
-The CSS/XPath selectors in `sync.py` were confirmed against murfy.ai's DOM at the time of writing. If the site changes and a step breaks, inspect the relevant element with Chrome DevTools (F12 → click the element → Copy selector) and update the corresponding selector in `sync.py`
+The CSS/XPath selectors in `sync.py` were confirmed against murfy.ai's DOM at the time of writing. If the site changes and a step breaks, inspect the relevant element with Chrome DevTools (F12 → click the element → Copy selector) and update the corresponding selector in `sync.py`.
