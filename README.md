@@ -1,6 +1,22 @@
 # sync-murfy
 
+> **Unofficial tool.** This project is community-built and is not affiliated with or endorsed by Murfy / Murple Corp. Usage is at the user's own risk.
+
 GitHub Action to back up a [Murfy](https://murfy.ai) LaTeX project into a git repository.
+
+## Important notices
+
+### Credential security
+
+This action requires your Murfy password to be stored as a **GitHub Secret**. GitHub Secrets are encrypted at rest and never exposed in workflow logs, but you should be aware of the following before proceeding:
+
+- The secret value is a plaintext password. Anyone with admin access to the repository can use (but not read) it; anyone who can write workflow files can potentially expose it in a workflow run.
+- Consider using a dedicated Murfy account — or at minimum a unique password — rather than your primary account credentials. As a safety measure, we recommend that account only has read access to the project being synced.
+- If your credentials are ever compromised, revoke them from the Murfy dashboard immediately.
+
+### Scheduling
+
+If you automate this action on a schedule, **please avoid frequent runs.** Running this too often generates unnecessary load on Murfy's infrastructure and may result in access being revoked.
 
 ## Local setup
 
@@ -43,6 +59,8 @@ Chrome will open visibly so you can follow along. The downloaded ZIP ends up in 
 
 ## Using this action
 
+Pin to a **specific tagged release** rather than `@main`. Following `@main` means your workflow silently picks up every future change to this action, including potentially breaking ones.
+
 ```yaml
 jobs:
   sync:
@@ -50,7 +68,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: macfernandez/sync-murfy@main
+      - uses: macfernandez/sync-murfy@v1.0.0   # pin to a specific release
         id: murfy
         with:
           email: ${{ secrets.MURFY_EMAIL }}
