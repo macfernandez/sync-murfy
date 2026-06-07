@@ -1,5 +1,7 @@
 # sync-murfy
 
+[![GitHub Release](https://img.shields.io/github/v/release/macfernandez/sync-murfy)](https://github.com/macfernandez/sync-murfy/releases)
+
 > **Unofficial tool.** This project is community-built and is not affiliated with or endorsed by Murfy / Murple Corp. Usage is at the user's own risk.
 
 GitHub Action to back up a [Murfy](https://murfy.ai) LaTeX project into a git repository.
