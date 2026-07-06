@@ -3,20 +3,12 @@ changelog:
     - title: 🚀 Features
       labels:
         - enhancement
-        - feature
-        - feat
     - title: 🐛 Fixes
       labels:
         - bug
-        - fix
     - title: 📚 Documentation
       labels:
         - documentation
-        - doc
-    - title: 📦 Dependency updates
-      labels:
-        - dependencies
-        - dep
     - title: 🧰 Other changes
       labels:
         - "*"
