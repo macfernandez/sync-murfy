@@ -66,7 +66,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: macfernandez/sync-murfy@v1.0.0   # pin to a specific release
         id: murfy
